@@ -113,6 +113,30 @@ void main() {
       expect(rows.last.sortIdx, 4);
     });
 
+    test('row field missing in column should fail gracefully', () {
+      final List<PlutoColumn> columns = [
+        PlutoColumn(
+            title: 'Here',
+            field: 'here',
+            width: 50,
+            type: PlutoColumnType.text(defaultValue: 'foo'))
+      ];
+
+      final List<PlutoRow> rows = [
+        PlutoRow(cells: {'here': PlutoCell(value: 'here')}),
+        PlutoRow(cells: {'there': PlutoCell(value: 'there')}),
+      ];
+
+      PlutoGridStateManager.initializeRows(
+        columns,
+        rows,
+        forceApplySortIdx: true,
+      );
+
+      expect(rows.first.sortIdx, 0);
+      expect(rows.last.sortIdx, 1);
+    });
+
     test(
         'forceApplySortIdx 가 false 이고 이미 sortIdx 가 설정 된 경우 sortIdx 값이 유지 되어야 한다.',
         () {

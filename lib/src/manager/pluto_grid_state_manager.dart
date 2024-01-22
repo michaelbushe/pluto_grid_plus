@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pluto_grid_plus/pluto_grid_plus.dart';
@@ -554,9 +555,16 @@ class _ApplyCellForSetColumnRow implements _Apply {
     }
 
     for (var element in refColumns) {
-      row.cells[element.field]!
-        ..setColumn(element)
-        ..setRow(row);
+      PlutoCell? cell = row.cells[element.field];
+      if (cell == null) {
+        if (kDebugMode) {
+          print('Warning: No cell found for element.field ${element.field}');
+        }
+      } else {
+        cell
+          ..setColumn(element)
+          ..setRow(row);
+      }
     }
   }
 }
