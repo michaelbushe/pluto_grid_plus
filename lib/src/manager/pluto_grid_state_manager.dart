@@ -558,7 +558,7 @@ class _ApplyCellForSetColumnRow implements _Apply {
       PlutoCell? cell = row.cells[element.field];
       if (cell == null) {
         if (kDebugMode) {
-          print('Warning: No cell found for element.field ${element.field}');
+          print('Warning: Field ${element.field} not found by cell.');
         }
       } else {
         cell
