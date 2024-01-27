@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid_plus/pluto_grid_plus.dart';
 
@@ -63,11 +64,13 @@ class PlutoBaseRow extends StatelessWidget {
   }
 
   PlutoVisibilityLayoutId _makeCell(PlutoColumn column) {
+    var cell = row.cells[column.field] ?? NoFieldCell(column.field);
+    var cellKey = cell.key;
     return PlutoVisibilityLayoutId(
       id: column.field,
       child: PlutoBaseCell(
-        key: row.cells[column.field]!.key,
-        cell: row.cells[column.field]!,
+        key: cellKey,
+        cell: cell,
         column: column,
         rowIdx: rowIdx,
         row: row,
@@ -116,6 +119,11 @@ class PlutoBaseRow extends StatelessWidget {
       builder: _dragTargetBuilder,
     );
   }
+}
+
+class NoFieldCell extends PlutoCell {
+  NoFieldCell(String field)
+      : super(value: kDebugMode ? '$field not found.' : '');
 }
 
 class _RowCellsLayoutDelegate extends MultiChildLayoutDelegate {
